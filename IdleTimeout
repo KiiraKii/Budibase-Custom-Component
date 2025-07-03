@@ -1,0 +1,40 @@
+<script>
+  import { onMount, onDestroy } from 'svelte';
+
+  const idleDurationSecs = 300; // 5 minutes
+  const redirectUrl = '/'; // target URL
+
+  let idleTimeout;
+
+  function resetIdleTimeout() {
+    if (idleTimeout) clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, idleDurationSecs * 1000);
+  }
+
+  function setupListeners() {
+    ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+      window.addEventListener(event, resetIdleTimeout);
+    });
+  }
+
+  function removeListeners() {
+    ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+      window.removeEventListener(event, resetIdleTimeout);
+    });
+  }
+
+  onMount(() => {
+    resetIdleTimeout();
+    setupListeners();
+  });
+
+  onDestroy(() => {
+    clearTimeout(idleTimeout);
+    removeListeners();
+  });
+</script>
+
+<!-- Component UI can be empty or display a message -->
+<div style="display:none;"></div>
