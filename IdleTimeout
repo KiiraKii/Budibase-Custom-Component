@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
 
-  const idleDurationSecs = 300; // 5 minutes
+  const idleDurationSecs = 5; // 5 seconds
   const redirectUrl = '/'; // target URL
 
   let idleTimeout;
